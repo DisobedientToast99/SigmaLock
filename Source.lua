@@ -1,4 +1,4 @@
---local gui = script.Parent:FindFirstChild("Lock_Gui").Main or game:GetObjects('rbxassetid://18622836850')[1].Main
+local gui = script.Parent:FindFirstChild("Lock_Gui").Main or game:GetObjects('rbxassetid://18622836850')[1].Main
 --[[  IGNORE: USED FOR DEBUGGING  ]]
 
 --------------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ local uis = game:FindFirstChildOfClass("UserInputService")
 
 --------------------------------------------------------------------------------------
 
-local gui = game:GetObjects('rbxassetid://18622836850')[1].Main
+--local gui = game:GetObjects('rbxassetid://18622836850')[1].Main
 gui.Parent.Parent = plrs.LocalPlayer.PlayerGui
 
 --------------------------------------------------------------------------------------
@@ -32,10 +32,10 @@ local defaultSettings = {
 	["LockingType"] = "Mouse",
 	["LockingOptions"] = {"Mouse", "Character"},
 
-	["LockMaxDistance"] = 500,
+	["LockMaxDistance"] = 10,
 
 	["AimAt"] = "Head",
-	["AimAtOptions"] = {"Head", "HumanoidRootPart"},
+	["AimAtOptions"] = {"Head", "HumanoidRootPart", "Random"}, -- "Random"
 
 	["ESP"] = true,
 	["ESPRefreshInterval"] = 10,
@@ -54,8 +54,9 @@ local defaultSettings = {
 	["_currentAimAtPart"] = 0,
 	["_currentLockingType"] = 0,
 	["_currentLockedCharacter"] = false,
-
-	["_DEBUG"] = false
+	["_currentLockingAimPartState"] = false,
+	
+	["_DEBUG"] = true
 }
 
 --------------------------------------------------------------------------------------
@@ -168,6 +169,16 @@ local function ToggleLabel(label, enabled)
 	end)
 end
 
+local function GetAimPart(aimPart)
+	if aimPart == "Head" then
+		return "Head"
+	elseif aimPart == "HumanoidRootPart" then
+		return "HumanoidRootPart"
+	elseif aimPart == "Random" then
+		return data.AimAtOptions[math.random(1,#data.AimAtOptions-1)]
+	end
+end
+
 local function CycleAimPart()
 	local function add()
 		if data._currentAimAtPart+1 > #data.AimAtOptions then 
@@ -179,8 +190,8 @@ local function CycleAimPart()
 
 	add()
 
-	if not player.Character:FindFirstChild(data.AimAtOptions[data._currentAimAtPart]) then 
-		repeat add() until player.Character:FindFirstChild(data.AimAtOptions[data._currentAimAtPart])
+	if not player.Character:FindFirstChild(GetAimPart(data.AimAtOptions[data._currentAimAtPart])) then 
+		repeat add() until player.Character:FindFirstChild(GetAimPart(data.AimAtOptions[data._currentAimAtPart]))
 	end
 
 	data.AimAt = data.AimAtOptions[data._currentAimAtPart]
@@ -197,7 +208,7 @@ local function CycleLockingType()
 end
 
 local function CharacterIsVisible(char)
-	local c = char:FindFirstChild(data.AimAt)
+	local c = char:FindFirstChild(GetAimPart(data.AimAt))
 
 	local _, visible = curCam:WorldToScreenPoint(c.CFrame.Position)
 
@@ -250,7 +261,7 @@ local function GetCharacterToLock()
 	--print(visibleCharacters)
 
 	for _, entry in pairs(visibleCharacters) do
-		return entry.char
+		return entry.char, entry.dis
 	end
 end
 
@@ -376,9 +387,7 @@ end
 
 --------------------------------------------------------------------------------------
 
-local function EnableLock(target)
-	local aim = target:FindFirstChild(data.AimAt)
-
+local function EnableLock(target, aim)
 	curCam.CFrame = CFrame.lookAt(curCam.CFrame.Position, aim.CFrame.Position)
 	data._currentLockedCharacter = target
 
@@ -390,6 +399,7 @@ end
 
 local function DisableLock()
 	data._currentLockedCharacter = false
+	data._currentLockingAimPartState = false
 
 	ts:Create(gui.Main, data.TweenInfo, {BackgroundColor3 = data.LockDisabledColor}):Play()
 	ToggleLabel(gui.Main.Target, false)
@@ -397,9 +407,13 @@ local function DisableLock()
 end
 
 local function CheckLock()
-	local target = GetCharacterToLock()
+	local target, distance = GetCharacterToLock()
 	if target then
-		EnableLock((data.AllowTargetSwitching and data._currentLockedCharacter) or target)
+		if not data._currentLockingAimPartState then
+			data._currentLockingAimPartState = GetAimPart(data.AimAt)
+		end
+		
+		EnableLock((data.AllowTargetSwitching and data._currentLockedCharacter) or target, target:FindFirstChild(data._currentLockingAimPartState))
 	else
 		DisableLock()
 	end
@@ -447,24 +461,25 @@ uis.InputBegan:connect(function(input, gm)
 	if not gm then
 		if input.KeyCode == data.AimSwitchBind then
 			CycleAimPart()
-			
+
 		elseif input.KeyCode == data.ESPBind then
 			data.ESP = not data.ESP
-			
+
 		elseif input.KeyCode == data.FFASwitchBind then
 			data.FreeForAll = not data.FreeForAll
-			
+
 		elseif input.KeyCode == data.RefreshESPBind then
 			RefreshESP()
-			
+
 		elseif input.KeyCode == data.TriggerBotSwitchBind then
 			data.TriggerBot = not data.TriggerBot
-			
+
 		elseif input.KeyCode == data.LockingTypeSwitchBind then
 			CycleLockingType()
-			
+
 		elseif input.KeyCode == data.ExitGuiBind then
 			ExitSigmaLock()
+
 		end
 	end
 end)
