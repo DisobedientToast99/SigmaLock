@@ -1,8 +1,20 @@
---local gui = script.Parent:FindFirstChild("Lock_Gui") or game:GetObjects('rbxassetid://18622836850')[1] 
+--local gui = script.Parent:FindFirstChild("Lock_Gui").Main or game:GetObjects('rbxassetid://18622836850')[1].Main
 --[[  IGNORE: USED FOR DEBUGGING  ]]
 
-local gui = game:GetObjects('rbxassetid://18622836850')[1]
-gui.Parent = game.Players.LocalPlayer.PlayerGui
+--------------------------------------------------------------------------------------
+
+local plrs = game:FindFirstChildOfClass("Players")
+local cgui = game:FindFirstChildOfClass("CoreGui")
+local runs = game:FindFirstChildOfClass("RunService")
+local ts = game:FindFirstChildOfClass("TweenService")
+local uis = game:FindFirstChildOfClass("UserInputService")
+
+--------------------------------------------------------------------------------------
+
+local gui = game:GetObjects('rbxassetid://18622836850')[1].Main
+gui.Parent.Parent = plrs.LocalPlayer.PlayerGui
+
+--------------------------------------------------------------------------------------
 
 local defaultSettings = {
 	["LockBind"] = Enum.KeyCode.LeftShift,
@@ -10,7 +22,8 @@ local defaultSettings = {
 	["RefreshESPBind"] = Enum.KeyCode.RightAlt,
 	["AimSwitchBind"] = Enum.KeyCode.RightShift,
 	["FFASwitchBind"] = Enum.KeyCode.RightControl,
-	["LockingTypeSwitchBind"] = Enum.KeyCode.BackSlash,
+	["LockingTypeSwitchBind"] = Enum.KeyCode.Equals,
+	["ExitGuiBind"] = Enum.KeyCode.Delete,
 	
 	["FreeForAll"] = false,
 	["TeamsToSkip"] = {},
@@ -22,9 +35,9 @@ local defaultSettings = {
 	["LockMaxDistance"] = 500,
 	
 	["AimAt"] = "Head",
-	["AimAtOptions"] = {"Head", "Torso", "LowerTorso"},
+	["AimAtOptions"] = {"Head", "HumanoidRootPart"},
 
-	["ESP"] = false,
+	["ESP"] = true,
 	["ESPRefreshInterval"] = 10,
 	
 	["ESPDefaultColor"] = Color3.fromRGB(255, 0, 0),
@@ -58,14 +71,6 @@ for gIndex, gValue in pairs(defaultSettings) do
 		end
 	end
 end
-
---------------------------------------------------------------------------------------
-
-local plrs = game:GetService("Players")
-local cgui = game:GetService("CoreGui")
-local runs = game:GetService("RunService")
-local ts = game:GetService("TweenService")
-local uis = game:GetService("UserInputService")
 
 --------------------------------------------------------------------------------------
 
@@ -331,7 +336,7 @@ local function LoadESP()
 	end)
 end
 
-local function RefreshESP()
+local function RefreshESP(del: boolean)
 	if player.PlayerGui:FindFirstChildOfClass("Highlight") then
 		ClearInstanceOfClass(player.PlayerGui,"Highlight",gui)
 	end
@@ -347,7 +352,9 @@ local function RefreshESP()
 	currentESPConnections = {}
 	currentPlayersESP = {}
 	
-	LoadESP()
+	if not del then
+		LoadESP()
+	end
 end
 
 --------------------------------------------------------------------------------------
@@ -393,7 +400,7 @@ end
 
 local function RunGui()
 	gui.Main.DisabledWarning.Text = disabledText
-	gui.Info.AimAt.Text = "AimAt: "..data.AimAt
+	gui.Info.AimAt.Text = "AimAt: "..(data.AimAt == "HumanoidRootPart" and "Torso" or data.AimAt)
 	gui.Info.ESP.Text = "ESP: "..(data.ESP and "On" or "Off")
 	gui.Info.FreeForAll.Text = "FFA: "..(data.FreeForAll and "On" or "Off")
 	gui.Info.LockingType.Text = "Type: "..data.LockingType
@@ -439,6 +446,11 @@ uis.InputBegan:connect(function(input, gm)
 		if input.KeyCode == data.LockingTypeSwitchBind then
 			CycleLockingType()
 		end
+	end
+	if input.KeyCode == data.ExitGuiBind then
+		RefreshESP(true)
+		script:Destroy()
+		gui:FindFirstAncestorOfClass("ScreenGui"):Destroy()
 	end
 end)
 
