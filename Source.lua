@@ -1,4 +1,4 @@
-local gui = script.Parent:FindFirstChild("Lock_Gui").Main or game:GetObjects('rbxassetid://18622836850')[1].Main
+--local gui = script.Parent:FindFirstChild("Lock_Gui").Main or game:GetObjects('rbxassetid://18622836850')[1].Main
 --[[  IGNORE: USED FOR DEBUGGING  ]]
 
 --------------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ local uis = game:FindFirstChildOfClass("UserInputService")
 
 --------------------------------------------------------------------------------------
 
---local gui = game:GetObjects('rbxassetid://18622836850')[1].Main
+local gui = game:GetObjects('rbxassetid://18622836850')[1].Main
 gui.Parent.Parent = plrs.LocalPlayer.PlayerGui
 
 --------------------------------------------------------------------------------------
