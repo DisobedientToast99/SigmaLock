@@ -3,6 +3,21 @@
 _G._Aim = {
 	["LockBind"] = Enum.KeyCode.LeftShift,
 	["ESPBind"] = Enum.KeyCode.LeftAlt,
+	["AimSwitchBind"] = Enum.KeyCode.RightShift,
+	["FFASwitchBind"] = Enum.KeyCode.RightControl,
+	["ExitGuiBind"] = Enum.KeyCode.Delete,
+}
+
+wait() loadstring(game:HttpGet("https://raw.githubusercontent.com/TheVerseer/sigmalock/main/main.lua"))()
+```
+
+---
+
+## Normal Script:
+```lua
+_G._Aim = {
+	["LockBind"] = Enum.KeyCode.LeftShift,
+	["ESPBind"] = Enum.KeyCode.LeftAlt,
 
 	["RefreshESPBind"] = Enum.KeyCode.RightAlt,
 	["AimSwitchBind"] = Enum.KeyCode.RightShift,
@@ -21,7 +36,6 @@ wait() loadstring(game:HttpGet("https://raw.githubusercontent.com/TheVerseer/sig
 ---
 
 ## Advanced Script:
-
 ```lua
 _G._Aim = {
 	["LockBind"] = Enum.KeyCode.LeftShift,
