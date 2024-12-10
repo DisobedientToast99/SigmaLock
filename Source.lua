@@ -19,6 +19,7 @@ gui.Parent.Parent = plrs.LocalPlayer.PlayerGui
 local defaultSettings = {
 	["LockBind"] = Enum.KeyCode.LeftShift,
 	["ESPBind"] = Enum.KeyCode.LeftAlt,
+	["TriggerBotBind"] = Enum.KeyCode.Minus,
 	["RefreshESPBind"] = Enum.KeyCode.RightAlt,
 	["AimSwitchBind"] = Enum.KeyCode.RightShift,
 	["FFASwitchBind"] = Enum.KeyCode.RightControl,
@@ -39,7 +40,10 @@ local defaultSettings = {
 
 	["ESP"] = true,
 	["ESPRefreshInterval"] = 10,
-
+	
+	["TriggerBot"] = false,
+	["TriggerBotHoldClick"] = true,
+	
 	["ESPDefaultColor"] = Color3.fromRGB(255, 0, 0),
 	["ESPDefaultColor_NPC"] = Color3.fromRGB(0, 255, 0),
 	["ESPFillTransparency"] = 0.6,
@@ -55,6 +59,7 @@ local defaultSettings = {
 	["_currentLockingType"] = 0,
 	["_currentLockedCharacter"] = false,
 	["_currentLockingAimPartState"] = false,
+	["_currentTriggerBotState"] = false,
 	
 	["_DEBUG"] = false
 }
@@ -436,7 +441,8 @@ local function RunGui()
 	gui.Info.ESP.Text = "ESP: "..(data.ESP and "On" or "Off")
 	gui.Info.FreeForAll.Text = "FFA: "..(data.FreeForAll and "On" or "Off")
 	gui.Info.LockingType.Text = "Type: "..data.LockingType
-
+	gui.Info.TriggerBot.Text = "Trigger Bot: "..data.TriggerBot
+	
 	for _, frame in pairs(gui:GetChildren()) do
 		if frame:IsA("Frame") and frame.BackgroundTransparency ~= data.GuiTransparency then
 			ts:Create(frame, data.TweenInfo, {BackgroundTransparency = data.GuiTransparency}):Play()
@@ -446,7 +452,18 @@ end
 
 local function RunTriggerBot()
 	if data.TriggerBot and mouse.Target and game.Players:GetPlayerFromCharacter(mouse.Target.Parent) and CanLockCharacter(mouse.Target.Parent) then
-
+		if data.TriggerBotHoldClick and not data._currentTriggerBotState then
+			data._currentTriggerBotState = true
+			mouse1press()
+		elseif not data.TriggerBotHoldClick then
+			mouse1click()
+		else
+			data._currentTriggerBotState = false
+			mouse1release()
+		end
+	else
+		data._currentTriggerBotState = false
+		mouse1release()
 	end
 end
 
@@ -480,7 +497,10 @@ uis.InputBegan:connect(function(input, gm)
 
 		elseif input.KeyCode == data.ExitGuiBind then
 			ExitSigmaLock()
-
+			
+		elseif input.KeyCode == data.TriggerBotBind then
+			data.TriggerBot = not data.TriggerBot
+			
 		end
 	end
 end)
