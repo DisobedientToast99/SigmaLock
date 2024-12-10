@@ -24,22 +24,22 @@ local defaultSettings = {
 	["FFASwitchBind"] = Enum.KeyCode.RightControl,
 	["LockingTypeSwitchBind"] = Enum.KeyCode.Equals,
 	["ExitGuiBind"] = Enum.KeyCode.Delete,
-	
+
 	["FreeForAll"] = false,
 	["TeamsToSkip"] = {},
 
 	["AllowTargetSwitching"] = true,
 	["LockingType"] = "Mouse",
 	["LockingOptions"] = {"Mouse", "Character"},
-	
+
 	["LockMaxDistance"] = 500,
-	
+
 	["AimAt"] = "Head",
 	["AimAtOptions"] = {"Head", "HumanoidRootPart"},
 
 	["ESP"] = true,
 	["ESPRefreshInterval"] = 10,
-	
+
 	["ESPDefaultColor"] = Color3.fromRGB(255, 0, 0),
 	["ESPDefaultColor_NPC"] = Color3.fromRGB(0, 255, 0),
 	["ESPFillTransparency"] = 0.6,
@@ -54,7 +54,7 @@ local defaultSettings = {
 	["_currentAimAtPart"] = 0,
 	["_currentLockingType"] = 0,
 	["_currentLockedCharacter"] = false,
-	
+
 	["_DEBUG"] = false
 }
 
@@ -70,6 +70,23 @@ for gIndex, gValue in pairs(defaultSettings) do
 			data[gIndex] = gValue
 		end
 	end
+end
+
+--------------------------------------------------------------------------------------
+
+local function ExitSigmaLock()
+	RefreshESP(true)
+	script:Destroy()
+	gui:FindFirstAncestorOfClass("ScreenGui"):Destroy()
+end
+
+--------------------------------------------------------------------------------------
+
+if _G._SigmaLockRan then
+	_G._SigmaLockRan()
+	_G._SigmaLockRan = ExitSigmaLock
+else
+	_G._SigmaLockRan = ExitSigmaLock
 end
 
 --------------------------------------------------------------------------------------
@@ -183,7 +200,7 @@ local function CharacterIsVisible(char)
 	local c = char:FindFirstChild(data.AimAt)
 
 	local _, visible = curCam:WorldToScreenPoint(c.CFrame.Position)
-		
+
 	return visible
 end
 
@@ -191,7 +208,7 @@ end
 
 local function GetCharacterToLock()
 	local visibleCharacters = {}
-	
+
 	for _, plr in pairs(plrs:GetPlayers()) do
 		if CanLockCharacter(plr.Character) then
 			local dis = nil
@@ -207,7 +224,7 @@ local function GetCharacterToLock()
 			end
 		end
 	end
-	
+
 	if data._DEBUG then
 		for _, rig in pairs(GetRigs()) do
 			if CanLockCharacter(rig) then
@@ -225,13 +242,13 @@ local function GetCharacterToLock()
 			end
 		end
 	end
-	
+
 	table.sort(visibleCharacters, function(a, b) return math.floor(a.dis + 0.5) < math.floor(b.dis + 0.5) end)
-	
+
 	--print(string.rep("-",10))
 	--print(data.LockingType)
 	--print(visibleCharacters)
-	
+
 	for _, entry in pairs(visibleCharacters) do
 		return entry.char
 	end
@@ -259,7 +276,7 @@ end
 local function AddESP(char)
 	if CanLockCharacter(char) then
 		RemoveESP(char)
-		
+
 		local plr = plrs:GetPlayerFromCharacter(char)
 		local espFolder = gui.ESP:Clone()
 
@@ -285,7 +302,7 @@ local function AddESP(char)
 			end
 		end
 
-		
+
 		espFolder.ESP_Highlight.FillTransparency = data.ESPFillTransparency
 		espFolder.ESP_Highlight.OutlineTransparency = data.ESPOutlineTransparency
 
@@ -315,22 +332,22 @@ local function LoadESP()
 		RemoveESP(plr.Character)
 		currentPlayersESP[plr.Character] = nil
 	end
-	
+
 	for _, rig in pairs(GetRigs()) do
 		if not currentPlayersESP[rig] then
 			AddESP(rig)
 			currentPlayersESP[rig] = true
 		end
 	end
-	
+
 	for _, plr in pairs(plrs:GetPlayers()) do
 		loadPlr(plr)
 	end
-	
+
 	currentESPConnections[#currentESPConnections+1] = plrs.PlayerAdded:Connect(function(plr)
 		loadPlr(plr)
 	end)
-	
+
 	currentESPConnections[#currentESPConnections+1] = plrs.PlayerRemoving:Connect(function(plr)
 		deloadPlr(plr)
 	end)
@@ -340,18 +357,18 @@ local function RefreshESP(del: boolean)
 	if player.PlayerGui:FindFirstChildOfClass("Highlight") then
 		ClearInstanceOfClass(player.PlayerGui,"Highlight",gui)
 	end
-	
+
 	for char, _ in pairs(currentESP) do
 		RemoveESP(char)
 	end
 	for _, c in pairs(currentESPConnections) do
 		c:Disconnect()
 	end
-	
+
 	currentESP = {}
 	currentESPConnections = {}
 	currentPlayersESP = {}
-	
+
 	if not del then
 		LoadESP()
 	end
@@ -361,10 +378,10 @@ end
 
 local function EnableLock(target)
 	local aim = target:FindFirstChild(data.AimAt)
-	
+
 	curCam.CFrame = CFrame.lookAt(curCam.CFrame.Position, aim.CFrame.Position)
 	data._currentLockedCharacter = target
-	
+
 	ts:Create(gui.Main, data.TweenInfo, {BackgroundColor3 = data.LockEnabledColor}):Play()
 	gui.Main.Target.Text = target.Name
 	ToggleLabel(gui.Main.Target, true)
@@ -373,7 +390,7 @@ end
 
 local function DisableLock()
 	data._currentLockedCharacter = false
-	
+
 	ts:Create(gui.Main, data.TweenInfo, {BackgroundColor3 = data.LockDisabledColor}):Play()
 	ToggleLabel(gui.Main.Target, false)
 	ToggleLabel(gui.Main.DisabledWarning, true)
@@ -414,7 +431,7 @@ end
 
 local function RunTriggerBot()
 	if data.TriggerBot and mouse.Target and game.Players:GetPlayerFromCharacter(mouse.Target.Parent) and CanLockCharacter(mouse.Target.Parent) then
-		
+
 	end
 end
 
@@ -428,29 +445,27 @@ RefreshESP()
 
 uis.InputBegan:connect(function(input, gm)
 	if not gm then
-	if input.KeyCode == data.AimSwitchBind then
-		CycleAimPart()
-	end
-	if input.KeyCode == data.ESPBind then
-		data.ESP = not data.ESP
-	end
-	if input.KeyCode == data.FFASwitchBind then
-		data.FreeForAll = not data.FreeForAll
-	end
-	if input.KeyCode == data.RefreshESPBind then
-		RefreshESP()
-	end
-		if input.KeyCode == data.TriggerBotSwitchBind then
-		data.TriggerBot = not data.TriggerBot
-	end
-		if input.KeyCode == data.LockingTypeSwitchBind then
+		if input.KeyCode == data.AimSwitchBind then
+			CycleAimPart()
+			
+		elseif input.KeyCode == data.ESPBind then
+			data.ESP = not data.ESP
+			
+		elseif input.KeyCode == data.FFASwitchBind then
+			data.FreeForAll = not data.FreeForAll
+			
+		elseif input.KeyCode == data.RefreshESPBind then
+			RefreshESP()
+			
+		elseif input.KeyCode == data.TriggerBotSwitchBind then
+			data.TriggerBot = not data.TriggerBot
+			
+		elseif input.KeyCode == data.LockingTypeSwitchBind then
 			CycleLockingType()
+			
+		elseif input.KeyCode == data.ExitGuiBind then
+			ExitSigmaLock()
 		end
-	end
-	if input.KeyCode == data.ExitGuiBind then
-		RefreshESP(true)
-		script:Destroy()
-		gui:FindFirstAncestorOfClass("ScreenGui"):Destroy()
 	end
 end)
 
