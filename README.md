@@ -8,7 +8,7 @@ _G._Aim = {
 	["ExitGuiBind"] = Enum.KeyCode.Delete,
 }
 
-wait() loadstring(game:HttpGet("https://raw.githubusercontent.com/TheVerseer/sigmalock/main/main.lua](https://raw.githubusercontent.com/DisobedientToast99/sigmalock/refs/heads/main/Main.lua)"))()
+wait() loadstring(game:HttpGet("https://raw.githubusercontent.com/DisobedientToast99/sigmalock/refs/heads/main/Main.lua"))()
 ```
 
 ---
@@ -30,7 +30,7 @@ _G._Aim = {
 	["AllowTargetSwitching"] = true,
 }
 
-wait() loadstring(game:HttpGet("https://raw.githubusercontent.com/TheVerseer/sigmalock/main/main.lua](https://raw.githubusercontent.com/DisobedientToast99/sigmalock/refs/heads/main/Main.lua)"))()
+wait() loadstring(game:HttpGet("https://raw.githubusercontent.com/DisobedientToast99/sigmalock/refs/heads/main/Main.lua"))()
 ```
 
 ---
@@ -79,5 +79,5 @@ _G._Aim = {
 	["_DEBUG"] = false
 }
 
-wait() loadstring(game:HttpGet("https://raw.githubusercontent.com/TheVerseer/sigmalock/main/main.lua](https://raw.githubusercontent.com/DisobedientToast99/sigmalock/refs/heads/main/Main.lua)"))()
+wait() loadstring(game:HttpGet("https://raw.githubusercontent.com/DisobedientToast99/sigmalock/refs/heads/main/Main.lua"))()
 ```
