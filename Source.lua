@@ -23,7 +23,7 @@ local defaultSettings = {
 	["AimSwitchBind"] = Enum.KeyCode.RightShift,
 	["FFASwitchBind"] = Enum.KeyCode.RightControl,
 	["LockingTypeSwitchBind"] = Enum.KeyCode.Equals,
-	["ExitGuiBind"] = Enum.KeyCode.Delete,
+	["ExitGuiBind"] = Enum.KeyCode.End,
 
 	["FreeForAll"] = false,
 	["TeamsToSkip"] = {},
@@ -76,7 +76,7 @@ end
 --------------------------------------------------------------------------------------
 
 local function ExitSigmaLock()
-	print("exit")
+	print("Exited SigmaLock")
 	RefreshESP(true)
 	script:Destroy()
 	gui:FindFirstAncestorOfClass("ScreenGui"):Destroy()
