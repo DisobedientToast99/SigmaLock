@@ -28,7 +28,7 @@ local defaultSettings = {
 	["FreeForAll"] = false,
 	["TeamsToSkip"] = {},
 
-	["AllowTargetSwitching"] = true,
+	["AllowTargetSwitching"] = false,
 	["LockingType"] = "Mouse",
 	["LockingOptions"] = {"Mouse", "Character"},
 
@@ -56,7 +56,7 @@ local defaultSettings = {
 	["_currentLockedCharacter"] = false,
 	["_currentLockingAimPartState"] = false,
 	
-	["_DEBUG"] = true
+	["_DEBUG"] = false
 }
 
 --------------------------------------------------------------------------------------
@@ -76,6 +76,7 @@ end
 --------------------------------------------------------------------------------------
 
 local function ExitSigmaLock()
+	print("exit")
 	RefreshESP(true)
 	script:Destroy()
 	gui:FindFirstAncestorOfClass("ScreenGui"):Destroy()
