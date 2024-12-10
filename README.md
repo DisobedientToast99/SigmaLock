@@ -71,12 +71,6 @@ _G._Aim = {
 
 	["GuiTransparency"] = 0.4, 
 	["TweenInfo"] = TweenInfo.new(0.1, Enum.EasingStyle.Exponential),
-
-	["_currentAimAtPart"] = 0,
-	["_currentLockingType"] = 0,
-	["_currentLockedCharacter"] = false,
-	
-	["_DEBUG"] = false
 }
 
 wait() loadstring(game:HttpGet("https://raw.githubusercontent.com/DisobedientToast99/sigmalock/refs/heads/main/Main.lua"))()
