@@ -27,7 +27,7 @@ _G._Aim = {
 	["ExitGuiBind"] = Enum.KeyCode.Delete,
 
 	["ESP"] = true,
-	["AllowTargetSwitching"] = true,
+	["AllowTargetSwitching"] = false,
 }
 
 wait() loadstring(game:HttpGet("https://raw.githubusercontent.com/DisobedientToast99/sigmalock/refs/heads/main/Main.lua"))()
@@ -49,7 +49,7 @@ _G._Aim = {
 	["FreeForAll"] = false,
 	["TeamsToSkip"] = {},
 
-	["AllowTargetSwitching"] = true,
+	["AllowTargetSwitching"] = false,
 	["LockingType"] = "Mouse",
 	["LockingOptions"] = {"Mouse", "Character"},
 	
