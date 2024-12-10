@@ -32,7 +32,7 @@ local defaultSettings = {
 	["LockingType"] = "Mouse",
 	["LockingOptions"] = {"Mouse", "Character"},
 
-	["LockMaxDistance"] = 10,
+	["LockMaxDistance"] = 500,
 
 	["AimAt"] = "Head",
 	["AimAtOptions"] = {"Head", "HumanoidRootPart", "Random"}, -- "Random"
