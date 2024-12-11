@@ -3,9 +3,12 @@
 _G._Aim = {
 	["LockBind"] = Enum.KeyCode.LeftShift,
 	["ESPBind"] = Enum.KeyCode.LeftAlt,
+	["TriggerBotBind"] = Enum.KeyCode.Minus,
+	["RefreshESPBind"] = Enum.KeyCode.RightAlt,
 	["AimSwitchBind"] = Enum.KeyCode.RightShift,
 	["FFASwitchBind"] = Enum.KeyCode.RightControl,
-	["ExitGuiBind"] = Enum.KeyCode.Delete,
+	["LockingTypeSwitchBind"] = Enum.KeyCode.Equals,
+	["ExitGuiBind"] = Enum.KeyCode.End,
 }
 
 wait() loadstring(game:HttpGet("https://raw.githubusercontent.com/DisobedientToast99/sigmalock/refs/heads/main/Main.lua"))()
@@ -18,16 +21,18 @@ wait() loadstring(game:HttpGet("https://raw.githubusercontent.com/DisobedientToa
 _G._Aim = {
 	["LockBind"] = Enum.KeyCode.LeftShift,
 	["ESPBind"] = Enum.KeyCode.LeftAlt,
-
+	["TriggerBotBind"] = Enum.KeyCode.Minus,
 	["RefreshESPBind"] = Enum.KeyCode.RightAlt,
 	["AimSwitchBind"] = Enum.KeyCode.RightShift,
 	["FFASwitchBind"] = Enum.KeyCode.RightControl,
 	["LockingTypeSwitchBind"] = Enum.KeyCode.Equals,
+	["ExitGuiBind"] = Enum.KeyCode.End,
 
-	["ExitGuiBind"] = Enum.KeyCode.Delete,
+	["FreeForAll"] = false,
+	["TeamsToSkip"] = {},
 
-	["ESP"] = true,
 	["AllowTargetSwitching"] = false,
+	["ESP"] = true,
 }
 
 wait() loadstring(game:HttpGet("https://raw.githubusercontent.com/DisobedientToast99/sigmalock/refs/heads/main/Main.lua"))()
@@ -40,26 +45,30 @@ wait() loadstring(game:HttpGet("https://raw.githubusercontent.com/DisobedientToa
 _G._Aim = {
 	["LockBind"] = Enum.KeyCode.LeftShift,
 	["ESPBind"] = Enum.KeyCode.LeftAlt,
+	["TriggerBotBind"] = Enum.KeyCode.Minus,
 	["RefreshESPBind"] = Enum.KeyCode.RightAlt,
 	["AimSwitchBind"] = Enum.KeyCode.RightShift,
 	["FFASwitchBind"] = Enum.KeyCode.RightControl,
 	["LockingTypeSwitchBind"] = Enum.KeyCode.Equals,
-	["ExitGuiBind"] = Enum.KeyCode.Delete,
-	
+	["ExitGuiBind"] = Enum.KeyCode.End,
+
 	["FreeForAll"] = false,
 	["TeamsToSkip"] = {},
 
 	["AllowTargetSwitching"] = false,
 	["LockingType"] = "Mouse",
 	["LockingOptions"] = {"Mouse", "Character"},
-	
+
 	["LockMaxDistance"] = 500,
-	
+
 	["AimAt"] = "Head",
-	["AimAtOptions"] = {"Head", "HumanoidRootPart"},
+	["AimAtOptions"] = {"Head", "HumanoidRootPart", "Random"},
 
 	["ESP"] = true,
 	["ESPRefreshInterval"] = 10,
+	
+	["TriggerBot"] = false,
+	["TriggerBotHoldClick"] = true,
 	
 	["ESPDefaultColor"] = Color3.fromRGB(255, 0, 0),
 	["ESPDefaultColor_NPC"] = Color3.fromRGB(0, 255, 0),
