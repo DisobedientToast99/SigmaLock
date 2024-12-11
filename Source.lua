@@ -36,7 +36,7 @@ local defaultSettings = {
 	["LockMaxDistance"] = 500,
 
 	["AimAt"] = "Head",
-	["AimAtOptions"] = {"Head", "HumanoidRootPart", "Random"}, -- "Random"
+	["AimAtOptions"] = {"Head", "HumanoidRootPart", "Random"},
 
 	["ESP"] = true,
 	["ESPRefreshInterval"] = 10,
