@@ -454,16 +454,16 @@ local function RunTriggerBot()
 	if data.TriggerBot and mouse.Target and game.Players:GetPlayerFromCharacter(mouse.Target.Parent) and CanLockCharacter(mouse.Target.Parent) then
 		if data.TriggerBotHoldClick and not data._currentTriggerBotState then
 			data._currentTriggerBotState = true
-			mouse1press()
+			--mouse1press()
 		elseif not data.TriggerBotHoldClick then
-			mouse1click()
+			--mouse1click()
 		else
 			data._currentTriggerBotState = false
-			mouse1release()
+			--mouse1release()
 		end
 	else
 		data._currentTriggerBotState = false
-		mouse1release()
+		--mouse1release()
 	end
 end
 
