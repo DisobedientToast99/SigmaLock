@@ -441,7 +441,7 @@ local function RunGui()
 	gui.Info.ESP.Text = "ESP: "..(data.ESP and "On" or "Off")
 	gui.Info.FreeForAll.Text = "FFA: "..(data.FreeForAll and "On" or "Off")
 	gui.Info.LockingType.Text = "Type: "..data.LockingType
-	gui.Info.TriggerBot.Text = "Trigger Bot: "..(data.TriggerBot and "On" or "Off")
+	gui.Info.TriggerBot.Text = "Trigger Bot: ".."[BROKEN]" --(data.TriggerBot and "On" or "Off")
 	
 	for _, frame in pairs(gui:GetChildren()) do
 		if frame:IsA("Frame") and frame.BackgroundTransparency ~= data.GuiTransparency then
@@ -499,7 +499,7 @@ uis.InputBegan:connect(function(input, gm)
 			ExitSigmaLock()
 			
 		elseif input.KeyCode == data.TriggerBotBind then
-			data.TriggerBot = not data.TriggerBot
+			--data.TriggerBot = not data.TriggerBot
 			
 		end
 	end
