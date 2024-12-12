@@ -68,7 +68,7 @@ _G._Aim = {
 	["ESPRefreshInterval"] = 10,
 	
 	["TriggerBot"] = false,
-	["TriggerBotHoldClick"] = true,
+	["TriggerBotHoldClick"] = false,
 	
 	["ESPDefaultColor"] = Color3.fromRGB(255, 0, 0),
 	["ESPDefaultColor_NPC"] = Color3.fromRGB(0, 255, 0),
