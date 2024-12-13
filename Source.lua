@@ -1,6 +1,8 @@
 --local gui = script.Parent:FindFirstChild("Lock_Gui").Main or game:GetObjects('rbxassetid://18622836850')[1].Main
 --[[  IGNORE: USED FOR DEBUGGING  ]]
 
+local gloFunc = {}
+
 --------------------------------------------------------------------------------------
 
 local plrs = game:FindFirstChildOfClass("Players")
@@ -82,7 +84,7 @@ end
 
 local function ExitSigmaLock()
 	print("Exited SigmaLock")
-	RefreshESP(true)
+	gloFunc.RefreshESP(true)
 	script:Destroy()
 	gui:FindFirstAncestorOfClass("ScreenGui"):Destroy()
 end
@@ -370,7 +372,7 @@ local function LoadESP()
 	end)
 end
 
-local function RefreshESP(del: boolean)
+local function gloFunc.RefreshESP(del: boolean)
 	if player.PlayerGui:FindFirstChildOfClass("Highlight") then
 		ClearInstanceOfClass(player.PlayerGui,"Highlight",gui)
 	end
@@ -471,7 +473,7 @@ end
 
 CycleAimPart()
 CycleLockingType()
-RefreshESP()
+gloFunc.RefreshESP()
 
 --------------------------------------------------------------------------------------
 
@@ -487,7 +489,7 @@ uis.InputBegan:connect(function(input, gm)
 			data.FreeForAll = not data.FreeForAll
 
 		elseif input.KeyCode == data.RefreshESPBind then
-			RefreshESP()
+			gloFunc.RefreshESP()
 
 		elseif input.KeyCode == data.TriggerBotSwitchBind then
 			data.TriggerBot = not data.TriggerBot
@@ -507,7 +509,7 @@ end)
 
 task.spawn(function()
 	while wait(data.ESPRefreshInterval) do
-		RefreshESP()
+		gloFunc.RefreshESP()
 	end
 end)
 
